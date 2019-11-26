@@ -79,5 +79,5 @@ Note: Test results are recorded in the training log.
 After training the above two models, copy the output files "./SPBS-RR/sememePre_TransE.txt" and "./SPBS-SR/sememePre_SPWE.txt" to the Ensemble directory, and then run the Ensemble model with the following command
 
 ```bash
-python 
+python ./Ensemble/Ensemble.py
 ```
