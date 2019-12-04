@@ -81,13 +81,14 @@ After training the above two models, copy the output files "./SPBS-RR/sememePre_
 ```bash
 python ./Ensemble/Ensemble.py
 ```
-## Data
+## Cite
 
-If you use the code or data, please cite this paper
+If you use any code or data, please cite this paper
 
 ```
 @inproceedings{qi2020towards,
 title={Towards Building a Multilingual Sememe Knowledge Base: Predicting Sememes for BabelNet Synsets},
 author={Fanchao Qi, Liang Chang, Maosong Sun, Sicong Ouyang, Zhiyuan Liu},
-booktitle={Proceedings of AAAI 2020}
+booktitle={Proceedings of AAAI 2020},
+}
 ```
