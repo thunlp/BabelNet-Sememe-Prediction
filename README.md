@@ -90,6 +90,6 @@ If you use any code or data, please cite this paper
     title={Towards Building a Multilingual Sememe Knowledge Base: Predicting Sememes for BabelNet Synsets},
     author={Fanchao Qi, Liang Chang, Maosong Sun, Sicong Ouyang, Zhiyuan Liu},
     booktitle={Proceedings of AAAI },
-    year=2020,
+    year={2020},
 }
 ```
