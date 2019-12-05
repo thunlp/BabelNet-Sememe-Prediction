@@ -88,7 +88,7 @@ If you use any code or data, please cite this paper
 ```
 @inproceedings{qi2020towards,
     title={Towards Building a Multilingual Sememe Knowledge Base: Predicting Sememes for BabelNet Synsets},
-    author={Fanchao Qi, Liang Chang, Maosong Sun, Sicong Ouyang, Zhiyuan Liu},
+    author={Qi, Fanchao and Chang, Liang and Sun, Maosong and Ouyang, Sicong and Liu, Zhiyuan },
     booktitle={Proceedings of AAAI },
     year={2020},
 }
