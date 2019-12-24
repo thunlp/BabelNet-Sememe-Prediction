@@ -44,7 +44,7 @@ This repo contains two types of data.
 
 - Synset embeddings from [NASARI](http://lcl.uniroma1.it/nasari/)
 
-  `./SPWE/synset_vec.txt`
+  `./SPBS-SR/synset_vec.txt`
 
 ## Models
 
