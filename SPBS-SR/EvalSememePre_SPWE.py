@@ -116,7 +116,7 @@ test2id_filename = '../data-noun/test.txt'
 synset_answer, first_relation_per_head = Read_Test2id(test2id_filename)
 
 print('Start to read sememes of synsts')
-synsetSememeFileName = '../../BabelSememe/synset_sememes.txt'
+synsetSememeFileName = '../BabelSememe/synset_sememes.txt'
 synsetSememeDict = ReadSysnetSememe(synsetSememeFileName)
 
 
