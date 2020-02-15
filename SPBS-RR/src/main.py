@@ -23,10 +23,9 @@ def main():
     print(args)
     
     kg = KnowledgeGraph(data_dir=args.data_dir)
-    lstEmbed = kg.embedding_array
     kge_model = TransE(kg=kg, embedding_dim=args.embedding_dim, margin_value=args.margin_value,
                        score_func=args.score_func, batch_size=args.batch_size, learning_rate=args.learning_rate,
-                       n_generator=args.n_generator, n_rank_calculator=args.n_rank_calculator, pre_trained=lstEmbed)
+                       n_generator=args.n_generator, n_rank_calculator=args.n_rank_calculator)
     gpu_config = tf.GPUOptions(allow_growth=True)
     sess_config = tf.ConfigProto(gpu_options=gpu_config)
     sess_config.gpu_options.per_process_gpu_memory_fraction = 0.9
@@ -41,7 +40,7 @@ def main():
         for epoch in range(args.max_epoch):
             print('=' * 30 + '[EPOCH {}]'.format(epoch) + '=' * 30)
             kge_model.launch_training(session=sess, summary_writer=summary_writer)
-            if (epoch + 1) % args.eval_freq == 0 and epoch >= args.max_epoch / 4:
+            if (epoch + 1) % args.eval_freq == 0:
                 kge_model.launch_evaluation(session=sess)
 
                 embedding_val = kge_model.entity_embedding

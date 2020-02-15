@@ -26,7 +26,7 @@ class KnowledgeGraph:
         '''load dicts and triples'''
         self.load_dicts()
         self.load_triples()
-        #self.load_vec()
+        
         '''construct pools after loading'''
         self.training_triple_pool = set(self.training_triples)
         self.golden_triple_pool = set(self.training_triples) | set(self.validation_triples) | set(self.test_triples)
@@ -102,37 +102,6 @@ class KnowledgeGraph:
                                      [self.relation_dict[r] for r in test_df[2]]))
         self.n_test_triple = len(self.test_triples)
         print('#test triple: {}'.format(self.n_test_triple))
-
-    def load_vec(self):
-        entity2vec_file = '../../SPWE/synset_vec.txt'
-        print('-----Loading entity vector-----')
-        file_path = entity2vec_file
-        with open(file_path, encoding = 'utf-8') as file:
-            for line in file:
-                line = line.strip().split()
-                if len(line) == 2:
-                    continue
-                else:
-                    synset = line[0]
-                    vec = [float(val) for val in line[1:]]
-                    self.entity2vec_dict[synset] = np.array(vec)
-
-        cnt = 0
-        for synset, vec in self.entity2vec_dict.items():
-            if synset in self.entity_dict.keys():
-                self.embedding_array[self.entity_dict[synset]] = vec
-                cnt += 1
-        print('cnt:', cnt)
-
-        bound = 6 / math.sqrt(300)
-        for i in range(len(self.entity_dict.keys())):
-            if i not in self.embedding_array.keys():
-                self.embedding_array[i] = np.random.uniform(-bound,bound,size=300)
-
-        self.embedding_array = np.array(list(self.embedding_array.values()), dtype=np.float32)
-
-        print('#entity2vec: {}'.format(self.embedding_array.shape))
-        return self.embedding_array
         
 
 
@@ -145,7 +114,7 @@ class KnowledgeGraph:
             if start_ss == self.n_training_triple_ss:
                 start_ss = 0
             end = min(start + batch_size, self.n_training_triple)
-            end_ss = min(int(start_ss + batch_size / 15), self.n_training_triple_ss)
+            end_ss = min(int(start_ss + batch_size / 10), self.n_training_triple_ss)
             batch = [self.training_triples[i] for i in rand_idx[start:end]]
             ss_batch = [self.training_synset_sememes[i] for i in rand_idx_ss[start_ss:end_ss]]
             
@@ -164,7 +133,7 @@ class KnowledgeGraph:
                 batch_pos, ss_batch = raw_batch
                 batch_neg = []
                 #corrupt_head_prob = np.random.binomial(1, 0.5)
-                # #只产生尾负例
+                #只产生尾负例
                 corrupt_head_prob = 0
                 for head, tail, relation in batch_pos:
                     head_neg = head

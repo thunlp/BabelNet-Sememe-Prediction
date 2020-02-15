@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-CUDA_VISIBLE_DEVICES=0 \
+CUDA_VISIBLE_DEVICES=2 \
 python main.py \
 --data_dir ../../data-noun/ \
 --embedding_dim 800 \
@@ -8,6 +8,5 @@ python main.py \
 --learning_rate 0.01 \
 --n_generator 24 \
 --n_rank_calculator 24 \
---eval_freq 3 \
---max_epoch 5
-
+--eval_freq 200 \
+--max_epoch 20000
