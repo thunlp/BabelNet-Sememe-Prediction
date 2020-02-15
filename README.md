@@ -55,7 +55,7 @@ This repo contains two types of data.
 Commands for training and testing models:
 
 ```bash
-python ./SPBS-SR/EvalSememePre_SPWE.py
+python ./SPBS-SR/EvalSememePre_SPWE.py 1
 ```
 
 #### SPBS-RR
