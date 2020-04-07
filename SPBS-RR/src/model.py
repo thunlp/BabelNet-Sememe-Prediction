@@ -14,7 +14,7 @@ import objgraph
 class TransE:
     def __init__(self, kg: KnowledgeGraph,
                  embedding_dim, margin_value, score_func,
-                 batch_size, learning_rate, n_generator, n_rank_calculator):
+                 batch_size, learning_rate, n_generator, n_rank_calculator,pre_trained=[]):
         self.kg = kg
         self.embedding_dim = embedding_dim
         self.margin_value = margin_value
@@ -43,6 +43,9 @@ class TransE:
         
         self.alpha = 0.95
         self.beta = 1.0 - self.alpha
+
+
+        tf.set_random_seed(1234)
 
         print('AP_init')
         self.AP_list = []
@@ -89,28 +92,10 @@ class TransE:
 
                 # print('t_synset:', t_synset)
                 # print('t_sememes:', t_sememes)
-                # col_sememes = tf.transpose(t_sememes)
+                col_sememes = tf.transpose(t_sememes)
                 # print('col_sememes:', col_sememes)
+                t_bool = (col_sememes == self.kg.n_entity + 1)
 
-                col_sememes = tf.reshape(t_sememes,[-1])
-
-                t_bool = tf.equal(col_sememes,self.kg.n_entity + 1)
-
-                padding_index = tf.cast(tf.where(t_bool)[:,-1],dtype=tf.int32)
-
-                t_zero = col_sememes * 0
-
-                col_sememes = tf.where(t_bool,t_zero,col_sememes)
-
-                # col_sememes = tf.reshape(col_sememes,[-1,29])
-
-                # # print(padding_index)
-                # # print(col_sememes)
-                # # exit()
-                # col_sememes = tf.transpose(col_sememes)
-
-                t_bool2 = tf.equal(col_sememes,self.kg.n_entity + 1)
-                
                 
             with tf.name_scope('Mlookup'):
                 t_synset_emb = tf.nn.embedding_lookup(self.entity_embedding, t_synset)
@@ -119,25 +104,23 @@ class TransE:
 
                 valid_sememe_emb = tf.nn.l2_normalize(valid_sememe_emb, dim=1)
                 
-                sememe_emb = tf.where(t_bool2, zero_emb, valid_sememe_emb)
+                sememe_emb = tf.where(t_bool, zero_emb, valid_sememe_emb)
+                #sememe_emb = tf.where(t_bool, valid_sememe_emb, zero_emb)
                 # print('sememe_emb:', sememe_emb)
-
-                sememe_emb = tf.reshape(sememe_emb,[29,-1,self.embedding_dim])
 
             with tf.name_scope('loss2'):
                 sememe_sum = tf.reduce_sum(sememe_emb, reduction_indices=0)
 
-
                 rel_emb = self.sum_relation
 
-                # synset_dot =  tf.matmul(t_synset_emb, self.M)
+                #synset_dot =  tf.matmul(t_synset_emb, self.M)
                 synset_dot = t_synset_emb
                 synset_dot = tf.nn.l2_normalize(synset_dot, dim=1)
 
                 # print('synset_dot:', synset_dot)
                 distance = synset_dot + rel_emb - sememe_sum
 
-                self.loss2 =tf.reduce_sum(tf.nn.relu(tf.abs(distance)))
+                self.loss2 = tf.clip_by_value(tf.reduce_sum(tf.nn.relu(tf.abs(distance))), 1e-7, 1e5)
                 
                 print('loss2:', self.loss2)
 
@@ -156,7 +139,7 @@ class TransE:
 
     def build_eval_graph(self):
         with tf.name_scope('evaluation'):
-            self.idx_head_prediction, self.idx_tail_prediction = self.evaluate(self.eval_triple)
+            self.idx_head_prediction, self.idx_tail_prediction= self.evaluate(self.eval_triple)
 
     def infer(self, triple_pos, triple_neg):
         with tf.name_scope('lookup'):
@@ -337,8 +320,13 @@ class TransE:
         #print('MeanRank: {:.3f}, Hits@10: {:.3f}'.format((head_meanrank_filter + tail_meanrank_filter) / 2,
         #                                                 (head_hits10_filter + tail_hits10_filter) / 2))
         print('cost time: {:.3f}s'.format(timeit.default_timer() - start))
+
+        
+
         mAP = score.get_AP_mean(AP_list)
         mAP_n = score.get_AP_mean(AP_n_list)
+
+
         fout.write(str(mAP_n))
         fout.close()
         gc.collect()

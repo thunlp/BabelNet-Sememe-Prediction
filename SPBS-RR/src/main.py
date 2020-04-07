@@ -43,21 +43,21 @@ def main():
             if (epoch + 1) % args.eval_freq == 0:
                 kge_model.launch_evaluation(session=sess)
 
-                embedding_val = kge_model.entity_embedding
-                vocab_size, dim = embedding_val.shape
-                embedding_val = embedding_val.eval(session = sess)
-                with open('entity_embedding' + str(epoch) + '.txt', 'w') as file_:
-                    for i in range(vocab_size):
-                      embed = embedding_val[i, :]
-                      file_.write('%s\n' % (' '.join(map(str, embed))))
+                # embedding_val = kge_model.entity_embedding
+                # vocab_size, dim = embedding_val.shape
+                # embedding_val = embedding_val.eval(session = sess)
+                # with open('entity_embedding' + str(epoch) + '.txt', 'w') as file_:
+                #     for i in range(vocab_size):
+                #       embed = embedding_val[i, :]
+                #       file_.write('%s\n' % (' '.join(map(str, embed))))
 
-                relation_val = kge_model.relation_embedding
-                vocab_size, dim = relation_val.shape
-                relation_val = relation_val.eval(session = sess)
-                with open('relation_embedding' + str(epoch) + '.txt', 'w') as file_:
-                    for i in range(vocab_size):
-                      embed = relation_val[i, :]
-                      file_.write('%s\n' % (' '.join(map(str, embed))))
+                # relation_val = kge_model.relation_embedding
+                # vocab_size, dim = relation_val.shape
+                # relation_val = relation_val.eval(session = sess)
+                # with open('relation_embedding' + str(epoch) + '.txt', 'w') as file_:
+                #     for i in range(vocab_size):
+                #       embed = relation_val[i, :]
+                #       file_.write('%s\n' % (' '.join(map(str, embed))))
 
 
 if __name__ == '__main__':

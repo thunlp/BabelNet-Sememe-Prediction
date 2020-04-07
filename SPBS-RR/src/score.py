@@ -1,7 +1,7 @@
 #coding:utf-8
 import numpy as np
 import time
-#作为synset和sememe的区分,通过读entity2id文件得到
+#代码中使用了id=9725作为synset和sememe的区分
 SYNSET_SEMEME_DIV = 9725
 
 #constant
@@ -27,6 +27,8 @@ entity2id_filename = data_path + 'entity2id.txt'
 noun_set = Read_Entity2id(entity2id_filename)
 
 
+
+
 def Read_Entity2id(fileName):
 	id2entity = {}
 	with open(fileName, 'r', encoding = 'utf-8') as file:
@@ -34,8 +36,6 @@ def Read_Entity2id(fileName):
 		for line in file:
 			synset_id, entity_id = line.strip().split()
 			id2entity[int(entity_id)] = synset_id
-			if synset_id[0] == 'b':
-				SYNSET_SEMEME_DIV = int(entity_id)
 	return id2entity
 
 def Read_Test2id(fileName):
@@ -63,7 +63,6 @@ def Read_Test2id(fileName):
 id2entityFileName = data_path + 'entity2id.txt'
 id2entity = Read_Entity2id(id2entityFileName)
 
-
 #测试集内获得的标准答案
 test2id_filename = data_path + 'test2id.txt'
 synset_answer, first_relation_per_head = Read_Test2id(test2id_filename)
@@ -80,7 +79,7 @@ def Get_AP_by_entity_id(eval_tripe, pre_id_list):
 	sememePre = []
 	pre_list = pre_id_list.tolist()
 	for item in pre_list:
-		if item > SYNSET_SEMEME_DIV:
+		if item >= SYNSET_SEMEME_DIV:
 			sememePre.append(item)
 
 	#print(len(sememeStd), len(sememePre))
@@ -98,10 +97,10 @@ def Get_AP_by_entity_id(eval_tripe, pre_id_list):
 			break
 		output_str += id2entity[item] + ' '
 	output_str += '\t'
-	# for i,item in enumerate(sememePre):
-	# 	output_str += str(round(pre_score_list[i],3)) + ' '
-	# output_str += '\t'
-	#output_str += str(len(hit_list)) + '\t'
+	for i,item in enumerate(sememePre):
+		output_str += str(round(pre_score_list[i],3)) + ' '
+	output_str += '\t'
+	output_str += str(len(hit_list)) + '\t'
 
 	
 		

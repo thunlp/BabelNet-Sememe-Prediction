@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-CUDA_VISIBLE_DEVICES=2 \
+CUDA_VISIBLE_DEVICES=1 \
 python main.py \
 --data_dir ../../data-noun/ \
 --embedding_dim 800 \

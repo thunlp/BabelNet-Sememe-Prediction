@@ -3,7 +3,7 @@ Code and data of the AAAI-20 paper "**Towards Building a Multilingual Sememe Kno
 
 ## Requirements
 
-- Tensorflow >= 1.13.0
+- Tensorflow-gpu >= 1.13.0
 - Python 3.x
 
 ## Data
