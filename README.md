@@ -55,7 +55,8 @@ This repo contains two types of data.
 Commands for training and testing models:
 
 ```bash
-python ./SPBS-SR/EvalSememePre_SPWE.py 1
+cd ./SPBS-SR/
+python EvalSememePre_SPWE.py 1
 ```
 
 #### SPBS-RR
@@ -65,7 +66,8 @@ python ./SPBS-SR/EvalSememePre_SPWE.py 1
 Commands for training and testing models:
 
 ```bash
-bash ./SPBS-RR/src/train.sh
+cd ./SPBS-RR/src/
+bash train.sh
 ```
 
 Note: Test results are recorded in the training log.
@@ -77,7 +79,8 @@ Note: Test results are recorded in the training log.
 After training the above two models, copy the output files `./SPBS-RR/sememePre_TransE.txt` and `./SPBS-SR/sememePre_SPWE.txt` to the Ensemble directory, and then run the Ensemble model with the following command:
 
 ```bash
-python ./Ensemble/Ensemble.py
+cd ./Ensemble/
+python Ensemble.py
 ```
 ## Cite
 
