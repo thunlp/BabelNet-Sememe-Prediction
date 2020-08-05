@@ -98,7 +98,7 @@ def Get_AP_by_entity_id(eval_tripe, pre_id_list):
 		output_str += id2entity[item] + ' '
 	output_str += '\t'
 	for i,item in enumerate(sememePre):
-		output_str += str(round(pre_score_list[i],3)) + ' '
+		output_str += str('Pre_score_useless_placeholder') + ' '
 	output_str += '\t'
 	output_str += str(len(hit_list)) + '\t'
 

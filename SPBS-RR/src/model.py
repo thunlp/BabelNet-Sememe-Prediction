@@ -327,7 +327,6 @@ class TransE:
         mAP_n = score.get_AP_mean(AP_n_list)
 
 
-        fout.write(str(mAP_n))
         fout.close()
         gc.collect()
         print('mAP:', mAP)
