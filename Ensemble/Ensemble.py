@@ -90,7 +90,7 @@ id2entityFileName = data_path + 'entity2id.txt'
 entity2id, id2entity = Read_Entity2id(id2entityFileName)
 
 #测试集内获得的标准答案
-test2id_filename = data_path + 'valid2id.txt'
+test2id_filename = data_path + 'test2id.txt'
 testSet, first_relation_per_head = Read_Test2id(test2id_filename)
 
 
